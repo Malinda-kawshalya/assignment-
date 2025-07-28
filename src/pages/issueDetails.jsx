@@ -4,6 +4,9 @@ import axios from "axios";
 import { useAuth } from '../context/AuthContext';
 import '../styles/issueDetails.css';
 
+// API Configuration
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://assignment-production-ad1a.up.railway.app/api';
+
 function IssueDetails() {
   const { id } = useParams();
   const [issue, setIssue] = useState(null);
@@ -25,7 +28,7 @@ function IssueDetails() {
           }
         };
         
-        const res = await axios.get(`http://localhost:5000/api/issues/${id}`, config);
+        const res = await axios.get(`${API_BASE_URL}/issues/${id}`, config);
         
         if (res.data.success && res.data.data) {
           setIssue(res.data.data);
@@ -51,7 +54,7 @@ function IssueDetails() {
           }
         };
         
-        const res = await axios.get(`http://localhost:5000/api/issues/${id}/comments`, config);
+        const res = await axios.get(`${API_BASE_URL}/issues/${id}/comments`, config);
         
         if (res.data.success && res.data.data) {
           setComments(res.data.data);
@@ -82,7 +85,7 @@ function IssueDetails() {
       };
 
       const res = await axios.post(
-        `http://localhost:5000/api/issues/${id}/comments`,
+        `${API_BASE_URL}/issues/${id}/comments`,
         { content: newComment },
         config
       );

@@ -3,6 +3,10 @@ import { useAuth } from '../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/profile.css';
 
+// API Configuration
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://assignment-production-ad1a.up.railway.app/api';
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'https://assignment-production-ad1a.up.railway.app';
+
 const Profile = () => {
   const { user, token, logout, updateUser } = useAuth();
   const navigate = useNavigate();
@@ -42,7 +46,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/auth/me', {
+        const response = await fetch(`${API_BASE_URL}/auth/me`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -63,7 +67,7 @@ const Profile = () => {
             email: data.data.email || ''
           });
           if (data.data.profilePicture) {
-            setProfilePicturePreview(`http://localhost:5000${data.data.profilePicture}`);
+            setProfilePicturePreview(`${BACKEND_URL}${data.data.profilePicture}`);
           }
         } else {
           setError('Failed to fetch profile data');
@@ -85,7 +89,7 @@ const Profile = () => {
   const fetchUserIssues = async () => {
     try {
       setIssuesLoading(true);
-      const response = await fetch('http://localhost:5000/api/issues/my-issues', {
+      const response = await fetch(`${API_BASE_URL}/issues/my-issues`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -106,7 +110,7 @@ const Profile = () => {
   // Fetch user statistics
   const fetchUserStats = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/issues/my-stats', {
+      const response = await fetch(`${API_BASE_URL}/issues/my-stats`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -136,7 +140,7 @@ const Profile = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/issues/${issueId}`, {
+      const response = await fetch(`${API_BASE_URL}/issues/${issueId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -200,7 +204,7 @@ const Profile = () => {
       const formData = new FormData();
       formData.append('profilePicture', profilePicture);
 
-      const response = await fetch('http://localhost:5000/api/auth/upload-profile-picture', {
+      const response = await fetch(`${API_BASE_URL}/auth/upload-profile-picture`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -218,7 +222,7 @@ const Profile = () => {
         }));
         setProfilePicture(null);
         // Update preview with server URL
-        setProfilePicturePreview(`http://localhost:5000${data.data.profilePicture}`);
+        setProfilePicturePreview(`${BACKEND_URL}${data.data.profilePicture}`);
         // Update user context to reflect in header
         updateUser({ profilePicture: data.data.profilePicture });
       } else {
@@ -247,7 +251,7 @@ const Profile = () => {
     setSuccess('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/profile', {
+      const response = await fetch(`${API_BASE_URL}/auth/profile`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -314,7 +318,7 @@ const Profile = () => {
           <div className="profile-avatar">
             {profilePicturePreview || profileData.profilePicture ? (
               <img 
-                src={profilePicturePreview || `http://localhost:5000${profileData.profilePicture}`} 
+                src={profilePicturePreview || `${BACKEND_URL}${profileData.profilePicture}`} 
                 alt="Profile" 
                 className="avatar-image"
               />

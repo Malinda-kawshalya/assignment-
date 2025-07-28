@@ -3,6 +3,9 @@ import { useAuth } from '../context/AuthContext';
 import '../styles/globals.css';
 import logo from '../assets/logo.png';
 
+// API Configuration
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'https://assignment-production-ad1a.up.railway.app';
+
 function Header() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -55,7 +58,7 @@ function Header() {
                   <div className="user-avatar">
                     {user?.profilePicture ? (
                       <img 
-                        src={`http://localhost:5000${user.profilePicture}`} 
+                        src={`${BACKEND_URL}${user.profilePicture}`} 
                         alt="Profile" 
                         className="avatar-image"
                       />

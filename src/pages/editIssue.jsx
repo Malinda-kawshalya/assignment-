@@ -4,6 +4,9 @@ import axios from "axios";
 import { useAuth } from '../context/AuthContext';
 import '../styles/editIssue.css';
 
+// API Configuration
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://assignment-production-ad1a.up.railway.app/api';
+
 
 function EditIssue() {
   const { id } = useParams();
@@ -24,7 +27,7 @@ function EditIssue() {
           }
         };
         
-        const res = await axios.get(`http://localhost:5000/api/issues/${id}`, config);
+        const res = await axios.get(`${API_BASE_URL}/issues/${id}`, config);
         
         if (res.data.success && res.data.data) {
           setIssue(res.data.data);
@@ -57,7 +60,7 @@ function EditIssue() {
         }
       };
 
-      const res = await axios.put(`http://localhost:5000/api/issues/${id}`, issue, config);
+      const res = await axios.put(`${API_BASE_URL}/issues/${id}`, issue, config);
       
       if (res.data.success) {
         navigate("/");
