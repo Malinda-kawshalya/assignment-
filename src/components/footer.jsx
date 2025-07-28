@@ -54,8 +54,8 @@ function Footer() {
             <h4 className="footer-section-title">Get in Touch</h4>
             <div className="footer-contact">
               <p>📧 support@issuetracker.com</p>
-              <p>📞 +1 (555) 123-4567</p>
-              <p>📍 123 Tech Street, Developer City</p>
+              <p>📞 762568438</p>
+              <p>📍 123 Tech Street, Developer City, Sri Lanka</p>
             </div>
             <div className="footer-social">
               <a href="#" className="social-link">
