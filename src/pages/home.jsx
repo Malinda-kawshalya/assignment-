@@ -10,8 +10,10 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
 
 function Home() {
   const [issues, setIssues] = useState([]);
+  const [filteredIssues, setFilteredIssues] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
   const { token, user } = useAuth();
 
   useEffect(() => {
@@ -29,13 +31,16 @@ function Home() {
         // Handle the new API response format
         if (res.data.success && res.data.data) {
           setIssues(res.data.data);
+          setFilteredIssues(res.data.data);
         } else {
           setIssues([]);
+          setFilteredIssues([]);
         }
       } catch (err) {
         console.error('Error fetching issues:', err);
         setError('Failed to load issues');
         setIssues([]);
+        setFilteredIssues([]);
       } finally {
         setLoading(false);
       }
@@ -45,6 +50,27 @@ function Home() {
       fetchIssues();
     }
   }, [token]);
+
+  // Search functionality
+  useEffect(() => {
+    if (searchTerm === '') {
+      setFilteredIssues(issues);
+    } else {
+      const filtered = issues.filter(issue =>
+        issue.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        issue.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        issue.status.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        issue.priority.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (issue.assignee && issue.assignee.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (issue.category && issue.category.toLowerCase().includes(searchTerm.toLowerCase()))
+      );
+      setFilteredIssues(filtered);
+    }
+  }, [searchTerm, issues]);
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
 
   if (loading) {
     return (
@@ -83,15 +109,47 @@ function Home() {
           </Link>
         </div>
         
-        {issues.length === 0 ? (
+        {/* Search Bar */}
+        <div className="search-container">
+          <div className="search-box">
+            <div className="search-icon">🔍</div>
+            <input
+              type="text"
+              placeholder="Search issues by title, description, status, priority, assignee, or category..."
+              value={searchTerm}
+              onChange={handleSearchChange}
+              className="search-input"
+            />
+            {searchTerm && (
+              <button 
+                onClick={() => setSearchTerm('')}
+                className="clear-search"
+                title="Clear search"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+          {searchTerm && (
+            <div className="search-results-info">
+              Found {filteredIssues.length} issue{filteredIssues.length !== 1 ? 's' : ''} matching "{searchTerm}"
+            </div>
+          )}
+        </div>
+        
+        {filteredIssues.length === 0 ? (
           <div className="empty-state">
             <div className="empty-state-icon">📋</div>
-            <h3 className="empty-state-title">No issues found</h3>
-            <p className="empty-state-subtitle">Create your first issue to get started</p>
+            <h3 className="empty-state-title">
+              {searchTerm ? 'No matching issues found' : 'No issues found'}
+            </h3>
+            <p className="empty-state-subtitle">
+              {searchTerm ? 'Try adjusting your search terms' : 'Create your first issue to get started'}
+            </p>
           </div>
         ) : (
           <div className="issues-grid">
-            {issues.map(issue => (
+            {filteredIssues.map(issue => (
               <div key={issue._id} className="issue-card">
                 <div className="issue-card-content">
                   <div className="issue-card-header">
