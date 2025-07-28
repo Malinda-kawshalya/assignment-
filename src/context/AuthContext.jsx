@@ -2,7 +2,7 @@ import { createContext, useContext, useReducer, useEffect } from 'react';
 import axios from 'axios';
 
 // API Configuration
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://assignment-production-ad1a.up.railway.app/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 // Initial state
 const initialState = {

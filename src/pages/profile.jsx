@@ -4,8 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import '../styles/profile.css';
 
 // API Configuration
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://assignment-production-ad1a.up.railway.app/api';
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'https://assignment-production-ad1a.up.railway.app';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
 
 const Profile = () => {
   const { user, token, logout, updateUser } = useAuth();

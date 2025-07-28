@@ -4,7 +4,7 @@ import '../styles/globals.css';
 import logo from '../assets/logo.png';
 
 // API Configuration
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'https://assignment-production-ad1a.up.railway.app';
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
 
 function Header() {
   const location = useLocation();
