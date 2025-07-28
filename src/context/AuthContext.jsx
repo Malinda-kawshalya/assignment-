@@ -1,6 +1,9 @@
 import { createContext, useContext, useReducer, useEffect } from 'react';
 import axios from 'axios';
 
+// API Configuration
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://assignment-production-ad1a.up.railway.app/api';
+
 // Initial state
 const initialState = {
   user: null,
@@ -81,7 +84,7 @@ export const AuthProvider = ({ children }) => {
     if (token) {
       setAuthToken(token);
       try {
-        const res = await axios.get('http://localhost:5000/api/auth/me');
+        const res = await axios.get(`${API_BASE_URL}/auth/me`);
         dispatch({
           type: AUTH_ACTIONS.LOAD_USER,
           payload: {
@@ -101,7 +104,7 @@ export const AuthProvider = ({ children }) => {
   // Login user
   const login = async (email, password) => {
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/login', {
+      const res = await axios.post(`${API_BASE_URL}/auth/login`, {
         email,
         password
       });
@@ -132,7 +135,7 @@ export const AuthProvider = ({ children }) => {
   // Register user
   const register = async (name, email, password) => {
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/register', {
+      const res = await axios.post(`${API_BASE_URL}/auth/register`, {
         name,
         email,
         password

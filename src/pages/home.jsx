@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 import { useAuth } from '../context/AuthContext';
 import '../styles/home.css';
 
+// API Configuration
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://assignment-production-ad1a.up.railway.app/api';
+
 
 function Home() {
   const [issues, setIssues] = useState([]);
@@ -21,7 +24,7 @@ function Home() {
           }
         };
         
-        const res = await axios.get("http://localhost:5000/api/issues", config);
+        const res = await axios.get(`${API_BASE_URL}/issues`, config);
         
         // Handle the new API response format
         if (res.data.success && res.data.data) {
