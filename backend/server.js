@@ -43,11 +43,6 @@ mongoose
 app.use("/api/issues", issueRoutes);
 app.use("/api/auth", authRoutes);
 
-// Health check endpoint
-app.get('/api/health', (req, res) => {
-  res.json({ message: 'Server is running' });
-});
-
 // Root endpoint
 app.get('/', (req, res) => {
   res.json({
