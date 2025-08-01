@@ -22,7 +22,7 @@ const AUTH_ACTIONS = {
   UPDATE_USER: 'UPDATE_USER'
 };
 
-// Reducer
+// Reducer update the state based on actions
 const authReducer = (state, action) => {
   switch (action.type) {
     case AUTH_ACTIONS.LOGIN_SUCCESS:
